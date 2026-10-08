@@ -1,0 +1,70 @@
+CREATE TABLE IF NOT EXISTS Cliente (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nome TEXT NOT NULL,
+    CPF TEXT UNIQUE NOT NULL,
+    Logradouro TEXT NOT NULL,
+    Bairro TEXT NOT NULL,
+    Cidade TEXT NOT NULL,
+    Estado TEXT NOT NULL,
+    N° TEXT NOT NULL,
+    CEP TEXT NOT NULL,
+    Email TEXT NOT NULL,
+    Data_Nascimento DATE NOT NULL,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS Loja (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Logradouro TEXT NOT NULL,
+    Bairro TEXT NOT NULL,
+    Cidade TEXT NOT NULL,
+    Estado TEXT NOT NULL,
+    N° TEXT NOT NULL,
+    CEP TEXT NOT NULL,
+    Email TEXT NOT NULL,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS Produto (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Nome TEXT NOT NULL,
+    Categoria TEXT NOT NULL,
+    valor_atual DECIMAL(10, 2) NOT NULL,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
+
+CREATE TABLE IF NOT EXISTS Venda (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_cliente INTEGER NOT NULL,
+    id_loja INTEGER NOT NULL,
+    data_venda DATE NOT NULL,
+    valor_total DECIMAL(10, 2) NOT NULL,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_cliente) REFERENCES Cliente(id),
+    FOREIGN KEY (id_loja) REFERENCES Loja(id)
+);
+
+    CREATE TABLE IF NOT EXISTS produto_venda (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_produto INTEGER NOT NULL,
+    id_venda INTEGER NOT NULL,
+    Quantidade INTEGER NOT NULL,
+    valor_unitario DECIMAL(10, 2) NOT NULL,
+    valor_total DECIMAL(10, 2) NOT NULL,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_produto) REFERENCES Produto(id),
+    FOREIGN KEY (id_venda) REFERENCES Venda(id)
+    );
+
+        CREATE TABLE IF NOT EXISTS produto_loja (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_produto INTEGER NOT NULL,
+    id_loja INTEGER NOT NULL,
+    Quantidade INTEGER NOT NULL,
+    criado_em DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_produto) REFERENCES Produto(id),
+    FOREIGN KEY (id_loja) REFERENCES Loja(id)
+    );
